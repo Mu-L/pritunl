@@ -114,7 +114,7 @@ def _verify_azure_2(user_name):
         graphUrl = "https://dod-graph.microsoft.us"
     elif settings.app.sso_azure_region in ("china", "china2"):
         loginUrl = "https://login.partner.microsoftonline.cn"
-        loginUrl = "https://microsoftgraph.chinacloudapi.cn"
+        graphUrl = "https://microsoftgraph.chinacloudapi.cn"
     else:
         loginUrl = "https://login.microsoftonline.com"
         graphUrl = "https://graph.microsoft.com"
