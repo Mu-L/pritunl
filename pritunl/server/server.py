@@ -1812,6 +1812,10 @@ class Server(mongo.MongoObject):
             'hosts': [],
         }})
 
+        self.clients_collection.delete_many({
+            'server_id': self.id,
+        })
+
         self.clients_pool_collection.delete_many({
             'server_id': self.id,
         })
@@ -1826,6 +1830,20 @@ class Server(mongo.MongoObject):
             self.publish('force_stop')
         else:
             self.publish('stop')
+
+        self.vxlan_collection.update_one({
+            'server_id': self.id,
+        }, {'$set': {
+            'hosts': [],
+        }})
+
+        self.clients_collection.delete_many({
+            'server_id': self.id,
+        })
+
+        self.clients_pool_collection.delete_many({
+            'server_id': self.id,
+        })
 
     def force_stop(self):
         self.stop(force=True)
