@@ -2924,7 +2924,7 @@ class Clients(object):
                         '_id': {'$in': doc_ids},
                     })
             except:
-                logger.exception('Error removing client', 'server',
+                logger.exception('Error removing clients', 'server',
                     server_id=self.server.id,
                 )
 
