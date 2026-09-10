@@ -123,12 +123,18 @@ def get_ip_pool_reverse(network, cursor, network_start=None,
 
     return ip_pool
 
-def network_reverse_hosts(net):
+def network_reverse_hosts(net, network_start=None, network_end=None):
     cur = int(net.broadcast_address) - 1
-    end = int(net.network_address) + 1
+    if network_end:
+        cur = min(cur, int(ipaddress.IPv4Address(network_end)))
+
+    end = int(net.network_address) + 2
+    if network_start:
+        end = max(end, int(ipaddress.IPv4Address(network_start)))
+
     while cur >= end:
+        yield ipaddress.ip_address(cur)
         cur -= 1
-        yield ipaddress.ip_address(cur + 1)
 
 def ip_to_long(ip_str):
     ip = ip_str.split('.')
