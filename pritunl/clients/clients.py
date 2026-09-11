@@ -838,8 +838,15 @@ class Clients(object):
                 'user_id': user_id,
             })
 
+            stale_timestamp = utils.now() - datetime.timedelta(
+                seconds=settings.vpn.client_ttl + 10)
+
             for doc in docs:
                 if doc['_id'] == cur_id:
+                    continue
+
+                timestamp = doc.get('timestamp')
+                if not timestamp or timestamp < stale_timestamp:
                     continue
 
                 if conn_count >= self.server.max_devices:
